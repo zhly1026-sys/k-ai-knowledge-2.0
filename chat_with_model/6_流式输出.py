@@ -13,8 +13,9 @@ completion = client.chat.completions.create(
     stream_options={"include_usage": True}
     )
 for chunk in completion:
-
     if chunk.choices:
         content = chunk.choices[0].delta.content
         if content:
-            print(content,end="",flush=True ) # 刷新缓冲区
+            print(content,end="",flush=True) # 刷新缓冲区
+    elif hasattr(chunk,'usage') and chunk.usage:
+        print(f"\n\nToken使用情况:{chunk.usage}")
